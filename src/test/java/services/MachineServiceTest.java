@@ -24,9 +24,8 @@ public class MachineServiceTest {
     public void setUp() {
         machineService = new MachineService();
         salleService = new SalleService();
-        salle = new Salle("A101"); // Exemple de salle
+        salle = new Salle("A101");
 
-        // Persister la salle avant d'utiliser
         salleService.create(salle);
 
         machine = new Machine();
@@ -34,19 +33,16 @@ public class MachineServiceTest {
         machine.setDateAchat(new Date());
         machine.setSalle(salle);
 
-        // Créer et persister la machine avant chaque test
         machineService.create(machine);
     }
 
     @After
     public void tearDown() {
-        // Supprimer la machine après chaque test si elle existe
         Machine foundMachine = machineService.findById(machine.getId());
         if (foundMachine != null) {
             machineService.delete(foundMachine);
         }
 
-        // Supprimer la salle après chaque test si elle existe
         Salle foundSalle = salleService.findById(salle.getId());
         if (foundSalle != null) {
             salleService.delete(foundSalle);
@@ -67,7 +63,7 @@ public class MachineServiceTest {
 
     @Test
     public void testUpdate() {
-        machine.setRef("MACH-002"); // Modifiez la référence pour tester la mise à jour
+        machine.setRef("MACH-002");
         boolean result = machineService.update(machine);
         assertTrue("Machine should be updated successfully", result);
 
@@ -87,8 +83,8 @@ public class MachineServiceTest {
     @Test
     public void testFindBetweenDate() {
         List<Machine> machines = machineService.findBetweenDate(
-                new Date(System.currentTimeMillis() - 86400000), // Hier
-                new Date() // Aujourd'hui
+                new Date(System.currentTimeMillis() - 86400000),
+                new Date()
         );
         assertNotNull("Machines list should not be null", machines);
         assertTrue("Machines list should contain at least one machine", machines.size() > 0);
